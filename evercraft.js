@@ -1,15 +1,5 @@
-class Hero {
-  constructor() {
-    this._name = ""
-  }
+const Ability = require('./lib/ability')
+const Attack = require('./lib/attack')
+const Hero = require('./lib/hero')
 
-  get name() {
-    return this._name
-  }
-
-  set name(name) {
-    this._name = name
-  }
-}
-
-module.exports = { Hero }
+module.exports = { Ability, Attack, Hero }
