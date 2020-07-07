@@ -2,11 +2,13 @@ const { Attack, Hero } = require('../evercraft')
 
 describe("Attack", () => {
 
-  let subject, defender
+  let subject, attacker, defender
+  let previousHitPoints
 
   beforeEach(() => {
+    attacker = new Hero()
     defender = new Hero()
-    subject = new Attack(defender)
+    subject = new Attack(attacker, defender)
   })
 
   describe.each([
@@ -16,10 +18,10 @@ describe("Attack", () => {
     ["when a roll is a natural 20", { roll: 20, hits: true, points: 2 }]
   ])("%s", (_, data) => {
 
-    let previousHitPoints, defenderHit
+    let defenderHit
 
     beforeEach(() => {
-      previousHitPoints = defender.hitPoints
+      previousHitPoints = defender.currentHitPoints
       defenderHit = subject.resolve(data.roll)
     })
 
@@ -28,7 +30,35 @@ describe("Attack", () => {
     })
 
     it(`damages the defender for ${data.points} point(s)`, () => {
-      expect(defender.hitPoints).toBe(previousHitPoints - data.points)
+      expect(defender.currentHitPoints).toBe(previousHitPoints - data.points)
+    })
+  })
+
+  describe("when attacker is beefy", () => {
+
+    beforeEach(() => {
+      attacker.strength.score = 14
+      previousHitPoints = defender.currentHitPoints
+    })
+
+    it("hits more easily", () => {
+      defenderHit = subject.resolve(8)
+      expect(defenderHit).toBe(true)
+    })
+
+    it("misses less easily", () => {
+      defenderHit = subject.resolve(7)
+      expect(defenderHit).toBe(false)
+    })
+
+    it("does more damage on a hit", () => {
+      subject.resolve(8)
+      expect(defender.currentHitPoints).toBe(previousHitPoints - attacker.attackDamage)
+    })
+
+    it("does even more damage on a critical", () => {
+      subject.resolve(20)
+      expect(defender.currentHitPoints).toBe(previousHitPoints - attacker.criticalDamage)
     })
   })
 })

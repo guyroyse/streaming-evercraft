@@ -41,6 +41,16 @@ describe("Hero", () => {
     it("defaults to 10", () => {
       expect(subject.armorClass).toBe(10)
     })
+
+    it("include dexterity modifier when hero is zippy", () => {
+      subject.dexterity.score = 14
+      expect(subject.armorClass).toBe(12)
+    })
+
+    it("include dexterity modifier when hero is sluggish", () => {
+      subject.dexterity.score = 6
+      expect(subject.armorClass).toBe(8)
+    })
   })
 
   describe("#hitPoints", () => {
@@ -48,9 +58,35 @@ describe("Hero", () => {
       expect(subject.hitPoints).toBe(5)
     })
 
+    it("goes up when hero is buff", () => {
+      subject.constitution.score = 14
+      expect(subject.hitPoints).toBe(7)
+    })
+
+    it("goes down when hero is sickly", () => {
+      subject.constitution.score = 6
+      expect(subject.hitPoints).toBe(3)
+    })
+
+    it("cannot goes below 0 because of constitution", () => {
+      subject.constitution.score = 1
+      expect(subject.hitPoints).toBe(1)
+    })
+
+    it("doesn't goes down when damaged", () => {
+      subject.damage(3)
+      expect(subject.hitPoints).toBe(5)
+    })
+  })
+
+  describe("#currentHitPoints", () => {
+    it("defaults to 5", () => {
+      expect(subject.currentHitPoints).toBe(5)
+    })
+
     it("goes down when damaged", () => {
       subject.damage(3)
-      expect(subject.hitPoints).toBe(2)
+      expect(subject.currentHitPoints).toBe(2)
     })
   })
 
@@ -72,6 +108,54 @@ describe("Hero", () => {
     it("is false when really, really damaged", () => {
       subject.damage(6)
       expect(subject.isAlive).toBe(false)
+    })
+  })
+
+  describe("#attackModifier", () => {
+    it("default to 0", () => {
+      expect(subject.attackModifier).toBe(0)
+    })
+
+    it("goes up when hero is beefy", () => {
+      subject.strength.score = 14
+      expect(subject.attackModifier).toBe(+2)
+    })
+
+    it("goes down when here is wimpy", () => {
+      subject.strength.score = 6
+      expect(subject.attackModifier).toBe(-2)
+    })
+  })
+
+  describe("#attackDamage", () => {
+    it("default to 1", () => {
+      expect(subject.attackDamage).toBe(1)
+    })
+
+    it("goes up when hero is beefy", () => {
+      subject.strength.score = 14
+      expect(subject.attackDamage).toBe(3)
+    })
+
+    it("cannot go below 1", () => {
+      subject.strength.score = 6
+      expect(subject.attackDamage).toBe(1)
+    })
+  })
+
+  describe("#criticalDamage", () => {
+    it("default to 2", () => {
+      expect(subject.criticalDamage).toBe(2)
+    })
+
+    it("goes up when hero is beefy", () => {
+      subject.strength.score = 14
+      expect(subject.criticalDamage).toBe(6)
+    })
+
+    it("cannot go below 1", () => {
+      subject.strength.score = 6
+      expect(subject.criticalDamage).toBe(1)
     })
   })
 })
