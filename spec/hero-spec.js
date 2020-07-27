@@ -158,4 +158,22 @@ describe("Hero", () => {
       expect(subject.criticalDamage).toBe(1)
     })
   })
+
+  describe("#experiencePoints", () => {
+    it("defaults to 0", () => {
+      expect(subject.experiencePoints).toBe(0)
+    })
+
+    it("goes up when experience is added", () => {
+      subject.addExperience(50)
+      expect(subject.experiencePoints).toBe(50)
+    })
+
+    it("goes up when experience is added more than once", () => {
+      subject.addExperience(50)
+      subject.addExperience(150)
+      expect(subject.experiencePoints).toBe(200)
+    })
+  })
+
 })

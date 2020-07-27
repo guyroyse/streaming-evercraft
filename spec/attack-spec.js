@@ -32,6 +32,10 @@ describe("Attack", () => {
     it(`damages the defender for ${data.points} point(s)`, () => {
       expect(defender.currentHitPoints).toBe(previousHitPoints - data.points)
     })
+
+    it("give the attacker 10 experience", () => {
+      expect(attacker.experiencePoints).toBe(10)
+    })
   })
 
   describe("when attacker is beefy", () => {
