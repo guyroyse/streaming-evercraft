@@ -25,17 +25,13 @@ describe("Attack", () => {
       defenderHit = subject.resolve(data.roll)
     })
 
-    it(data.hits ? "hits" : "misses", () => {
-      expect(defenderHit).toBe(data.hits)
-    })
+    it(data.hits ? "hits" : "misses", () => expect(defenderHit).toBe(data.hits))
 
     it(`damages the defender for ${data.points} point(s)`, () => {
       expect(defender.currentHitPoints).toBe(previousHitPoints - data.points)
     })
 
-    it("give the attacker 10 experience", () => {
-      expect(attacker.experiencePoints).toBe(10)
-    })
+    it("give the attacker 10 experience", () => expect(attacker.experiencePoints).toBe(10))
   })
 
   describe("when attacker is beefy", () => {

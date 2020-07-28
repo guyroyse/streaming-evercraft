@@ -7,9 +7,7 @@ describe("Ability", () => {
   beforeEach(() => subject = new Ability())
 
   describe("#score", () => {
-    it("defaults to 10", () => {
-      expect(subject.score).toBe(10)
-    })
+    it("defaults to 10", () => expect(subject.score).toBe(10))
 
     it("can be changed", () => {
       subject.score = 15
