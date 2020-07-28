@@ -37,6 +37,28 @@ describe("Hero", () => {
     })
   })
 
+  describe("#class", () => {
+    it("defaults to 'None", () => {
+      expect(subject.class).toBe("None")
+    })
+
+    it.each([
+      ['None'],
+      ['Fighter'],
+      ['Rogue'],
+      ['Monk'],
+      ['Paladin'],
+    ])("can be %a s", (clazz) => {
+      subject.class = clazz
+      expect(subject.class).toBe(clazz)
+    })
+
+    it("cannot be an invalid class", () => {
+      expect(() => subject.class = "Buffoon")
+        .toThrow("'Buffoon' is not a class")
+    })
+  })
+
   describe("#armorClass", () => {
     it("defaults to 10", () => {
       expect(subject.armorClass).toBe(10)
