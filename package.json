@@ -6,7 +6,9 @@
     "test": "jest --watchAll --runInBand"
   },
   "jest": {
-    "testMatch": [ "**/spec/**/*-spec.js" ]
+    "testMatch": [
+      "**/spec/**/*-spec.js"
+    ]
   },
   "author": "Guy Royse <guy@guyroyse.com>",
   "private": true,
