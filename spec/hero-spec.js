@@ -109,18 +109,20 @@ describe("Hero", () => {
   })
 
   describe("#attackModifier", () => {
-    it("default to 0", () => {
-      expect(subject.attackModifier).toBe(0)
-    })
 
-    it("goes up when hero is beefy", () => {
-      subject.strength.score = 14
-      expect(subject.attackModifier).toBe(+2)
-    })
-
-    it("goes down when here is wimpy", () => {
-      subject.strength.score = 6
-      expect(subject.attackModifier).toBe(-2)
+    it.each([
+      ["defaults to 0", { xp: 0, str: 10, attackModifier: 0 }],
+      ["goes up when hero is beefy", { xp: 0, str: 14, attackModifier: +2 }],
+      ["goes down when hero is wimpy", { xp: 0, str: 6, attackModifier: -2 }],
+      ["goes up on even levels", { xp: 1000, str: 10, attackModifier: +1 }],
+      ["does not go up with odd levels", { xp: 2000, str: 10, attackModifier: +1 }],
+      ["goes up more on higher even levels", { xp: 3000, str: 10, attackModifier: +2 }],
+      ["goes up with levels and beefitude", { xp: 3000, str: 14, attackModifier: +4 }],
+      ["goes up with levels and down with wimpiness", { xp: 3000, str: 6, attackModifier: 0 }]
+    ])("%s", (_, data) => {
+      subject.addExperience(data.xp)
+      subject.strength.score = data.str
+      expect(subject.attackModifier).toBe(data.attackModifier)
     })
   })
 
