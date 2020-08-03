@@ -15,8 +15,8 @@ describe("Hero", () => {
       ["cannot go below 0 because of constitution", { xp: 0, con: 1, hp: 1 }],
       ["goes up with levels", { xp: 2000, con: 10, hp: 15 }],
       ["goes up with levels and buffitude", { xp: 2000, con: 14, hp: 21 }],
-      ["still goes up level even if sickly", { xp: 2000, con: 6, hp: 9 }],
-      ["has at least 1 hp per level", { xp: 2000, con: 1, hp: 3 }]
+      ["still goes up with levels even if sickly", { xp: 2000, con: 6, hp: 9 }],
+      ["increases by at least 1 hp per level", { xp: 2000, con: 1, hp: 3 }]
     ])("%s", (_, data) => {
       subject.addExperience(data.xp)
       subject.constitution.score = data.con
