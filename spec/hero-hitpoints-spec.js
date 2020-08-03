@@ -9,16 +9,16 @@ describe("Hero", () => {
   describe("#hitPoints", () => {
 
     it.each([
-      ["defaults to 5", { xp: 0, con: 10, hp: 5 }],
-      ["goes up when hero is buff", { xp: 0, con: 14, hp: 7 }],
-      ["goes down when hero is sickly", { xp: 0, con: 6, hp: 3 }],
-      ["cannot go below 0 because of constitution", { xp: 0, con: 1, hp: 1 }],
-      ["goes up with levels", { xp: 2000, con: 10, hp: 15 }],
-      ["goes up with levels and buffitude", { xp: 2000, con: 14, hp: 21 }],
-      ["still goes up with levels even if sickly", { xp: 2000, con: 6, hp: 9 }],
-      ["increases by at least 1 hp per level", { xp: 2000, con: 1, hp: 3 }]
+      ["defaults to 5", { level: 1, con: 10, hp: 5 }],
+      ["goes up when hero is buff", { level: 1, con: 14, hp: 7 }],
+      ["goes down when hero is sickly", { level: 1, con: 6, hp: 3 }],
+      ["cannot go below 0 because of constitution", { level: 1, con: 1, hp: 1 }],
+      ["goes up with levels", { level: 3, con: 10, hp: 15 }],
+      ["goes up with levels and buffitude", { level: 3, con: 14, hp: 21 }],
+      ["still goes up with levels even if sickly", { level: 3, con: 6, hp: 9 }],
+      ["increases by at least 1 hp per level", { level: 3, con: 1, hp: 3 }]
     ])("%s", (_, data) => {
-      subject.addExperience(data.xp)
+      makeLevel(subject, data.level)
       subject.constitution.score = data.con
       expect(subject.hitPoints).toBe(data.hp)
     })
