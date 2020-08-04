@@ -8,17 +8,21 @@ describe("Hero", () => {
 
   describe("#hitPoints", () => {
 
-    it.each([
-      ["defaults to 5", { level: 1, con: 10, hp: 5 }],
-      ["goes up when hero is buff", { level: 1, con: 14, hp: 7 }],
-      ["goes down when hero is sickly", { level: 1, con: 6, hp: 3 }],
-      ["cannot go below 0 because of constitution", { level: 1, con: 1, hp: 1 }],
-      ["goes up with levels", { level: 3, con: 10, hp: 15 }],
-      ["goes up with levels and buffitude", { level: 3, con: 14, hp: 21 }],
-      ["still goes up with levels even if sickly", { level: 3, con: 6, hp: 9 }],
-      ["increases by at least 1 hp per level", { level: 3, con: 1, hp: 3 }]
+    it.each( [
+      ["defaults to 5",                              { class: 'None',    level: 1, con: 10, hp:  5 }],
+      ["goes up when hero is buff",                  { class: 'None',    level: 1, con: 14, hp:  7 }],
+      ["goes down when hero is sickly",              { class: 'None',    level: 1, con:  6, hp:  3 }],
+      ["cannot go below 0 because of constitution",  { class: 'None',    level: 1, con:  1, hp:  1 }],
+      ["goes up with levels",                        { class: 'None',    level: 3, con: 10, hp: 15 }],
+      ["goes up with levels and buffitude",          { class: 'None',    level: 3, con: 14, hp: 21 }],
+      ["still goes up with levels even if sickly",   { class: 'None',    level: 3, con:  6, hp:  9 }],
+      ["increases by at least 1 hp per level",       { class: 'None',    level: 3, con:  1, hp:  3 }],
+      ["defaults to 10 for fighters",                { class: 'Fighter', level: 1, con: 10, hp: 10 }],
+      ["goes up by 10 for each fighter level",       { class: 'Fighter', level: 3, con: 10, hp: 30 }],
+      ["goes up more for buff, high-level fighters", { class: 'Fighter', level: 3, con: 14, hp: 36 }]
     ])("%s", (_, data) => {
       makeLevel(subject, data.level)
+      subject.class = data.class
       subject.constitution.score = data.con
       expect(subject.hitPoints).toBe(data.hp)
     })

@@ -54,16 +54,19 @@ describe("Hero", () => {
   describe("#attackModifier", () => {
 
     it.each([
-      ["defaults to 0", { level: 1, str: 10, attackModifier: 0 }],
-      ["goes up when hero is beefy", { level: 1, str: 14, attackModifier: +2 }],
-      ["goes down when hero is wimpy", { level: 1, str: 6, attackModifier: -2 }],
-      ["goes up on even levels", { level: 2, str: 10, attackModifier: +1 }],
-      ["does not go up with odd levels", { level: 3, str: 10, attackModifier: +1 }],
-      ["goes up more on higher even levels", { level: 4, str: 10, attackModifier: +2 }],
-      ["goes up with levels and beefitude", { level: 4, str: 14, attackModifier: +4 }],
-      ["goes up with levels and down with wimpiness", { level: 4, str: 6, attackModifier: 0 }]
+      ["defaults to 0",                               { class: 'None',    level: 1, str: 10, attackModifier:  0 }],
+      ["goes up when hero is beefy",                  { class: 'None',    level: 1, str: 14, attackModifier: +2 }],
+      ["goes down when hero is wimpy",                { class: 'None',    level: 1, str:  6, attackModifier: -2 }],
+      ["goes up on even levels",                      { class: 'None',    level: 2, str: 10, attackModifier: +1 }],
+      ["does not go up with odd levels",              { class: 'None',    level: 3, str: 10, attackModifier: +1 }],
+      ["goes up more on higher even levels",          { class: 'None',    level: 4, str: 10, attackModifier: +2 }],
+      ["goes up with levels and beefitude",           { class: 'None',    level: 4, str: 14, attackModifier: +4 }],
+      ["defaults to 1 for fighters",                  { class: 'Fighter', level: 1, str: 10, attackModifier: +1 }],
+      ["goes up every level for fighters",            { class: 'Fighter', level: 3, str: 10, attackModifier: +3 }],
+      ["goes up strong, high-level fighters",         { class: 'Fighter', level: 4, str: 14, attackModifier: +6 }]
     ])("%s", (_, data) => {
       makeLevel(subject, data.level)
+      subject.class = data.class
       subject.strength.score = data.str
       expect(subject.attackModifier).toBe(data.attackModifier)
     })
@@ -98,6 +101,24 @@ describe("Hero", () => {
     it("cannot go below 1", () => {
       subject.strength.score = 6
       expect(subject.criticalDamage).toBe(1)
+    })
+
+    describe("when a rogue", () => {
+      beforeEach(() => subject.class = 'Rogue')
+
+      it("default to 3", () => {
+        expect(subject.criticalDamage).toBe(3)
+      })
+  
+      it("goes up when hero is beefy", () => {
+        subject.strength.score = 14
+        expect(subject.criticalDamage).toBe(9)
+      })
+  
+      it("cannot go below 1", () => {
+        subject.strength.score = 6
+        expect(subject.criticalDamage).toBe(1)
+      })  
     })
   })
 })
