@@ -38,8 +38,6 @@ describe("Hero", () => {
         expect(() => subject.alignment = "Good")
           .toThrow("Rogues cannot be 'Good'")
       })
-  
-  
     })
   })
 })
