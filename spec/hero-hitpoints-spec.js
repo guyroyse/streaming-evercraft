@@ -22,7 +22,10 @@ describe("Hero", () => {
       ["goes up more for buff, high-level fighters", { class: 'Fighter', level: 3, con: 14, hp: 36 }],
       ["defaults to 6 for monk",                     { class: 'Monk',    level: 1, con: 10, hp:  6 }],
       ["goes up by 6 for each monk level",           { class: 'Monk',    level: 3, con: 10, hp: 18 }],
-      ["goes up more for buff, high-level monk",     { class: 'Monk',    level: 3, con: 14, hp: 24 }]
+      ["goes up more for buff, high-level monk",     { class: 'Monk',    level: 3, con: 14, hp: 24 }],
+      ["defaults to 8 for paladin",                  { class: 'Paladin', level: 1, con: 10, hp:  8 }],
+      ["goes up by 8 for each paladin level",        { class: 'Paladin', level: 3, con: 10, hp: 24 }],
+      ["goes up more for buff, high-level paladin",  { class: 'Paladin', level: 3, con: 14, hp: 30 }],
     ])("%s", (_, data) => {
       makeLevel(subject, data.level)
       subject.class = data.class
