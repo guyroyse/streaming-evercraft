@@ -24,6 +24,11 @@ describe("Hero", () => {
       ["defaults to 0 rogues",                        { ...DEFAULTS, class: 'Rogue', attackModifier: 0 }],
       ["does not go up when rogues are beefy",        { ...DEFAULTS, class: 'Rogue', str: 14, attackModifier: 0 }],
       ["does go up when rogues are fast",             { ...DEFAULTS, class: 'Rogue', str: 14, dex: 14, attackModifier: +2 }],
+      ["defaults to 0 for monks",                     { ...DEFAULTS, class: 'Monk', attackModifier: +0 }],
+      ["goes up on second level for monks",           { ...DEFAULTS, class: 'Monk', level: 2, attackModifier: +1 }],
+      ["goes up on third level for monks",            { ...DEFAULTS, class: 'Monk', level: 3, attackModifier: +2 }],
+      ["does not go up on fourth level for monks",    { ...DEFAULTS, class: 'Monk', level: 4, attackModifier: +2 }],
+      ["goes up for strong, high-level monks",        { ...DEFAULTS, class: 'Monk', level: 10, str: 14, attackModifier: +8 }],
     ])("%s", (_, data) => {
       makeLevel(subject, data.level)
       subject.class = data.class
