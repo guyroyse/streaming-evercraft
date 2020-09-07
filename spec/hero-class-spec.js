@@ -40,7 +40,7 @@ describe("Hero", () => {
   
       it("cannot be a Rogue", () => {
         expect(() => subject.class = "Rogue")
-          .toThrow("Rogues cannot be 'Good'")
+          .toThrow("Rogues cannot be Good")
       })  
     })
   })
