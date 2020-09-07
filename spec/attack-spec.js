@@ -61,39 +61,4 @@ describe("Attack", () => {
       expect(defender.currentHitPoints).toBe(previousHitPoints - attacker.criticalDamage)
     })
   })
-
-  describe("when attacker is a rogue", () => {
-
-    beforeEach(() => attacker.class = 'Rogue')
-
-    describe("and defender has a dexterity bonus to their armor class", () => {
-
-      beforeEach(() => defender.dexterity.score = 14) // armor class 12
-
-      it("ignores the dex bonus to armor class on a hit", () => {
-        defenderHit = subject.resolve(10)
-        expect(defenderHit).toBe(true)
-      })
-
-      it("ignores the dex bonus to armor class on a miss", () => {
-        defenderHit = subject.resolve(9)
-        expect(defenderHit).toBe(false)
-      })
-    })
-
-    describe("and defender has a dexterity penalty to their armor class", () => {
-
-      beforeEach(() => defender.dexterity.score = 6) // armor class 8
-
-      it("includes the dex penalty to armor class on a hit", () => {
-        defenderHit = subject.resolve(8)
-        expect(defenderHit).toBe(true)
-      })
-
-      it("includes the dex penalty to armor class on a miss", () => {
-        defenderHit = subject.resolve(7)
-        expect(defenderHit).toBe(false)
-      })
-    })
-  })
 })

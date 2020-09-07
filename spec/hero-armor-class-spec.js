@@ -7,58 +7,53 @@ describe("Hero", () => {
   beforeEach(() => subject = new Hero())
 
   describe("#armorClass", () => {
-    it("defaults to 10", () => {
-      expect(subject.armorClass).toBe(10)
-    })
 
-    it("include dexterity modifier when hero is zippy", () => {
-      subject.dexterity.score = 14
-      expect(subject.armorClass).toBe(12)
-    })
+    let DEFAULTS = { attackerClass: 'None', defenderClass: 'None', dex: 10, wis: 10, ac: 10 }
 
-    it("include dexterity modifier when hero is sluggish", () => {
-      subject.dexterity.score = 6
-      expect(subject.armorClass).toBe(8)
-    })
+    it.each( [
+      ["defaults to 10",                                    { ...DEFAULTS }],
+      ["include dexterity modifier when hero is zippy",     { ...DEFAULTS, dex: 14, ac: 12 }],
+      ["include dexterity modifier when hero is sluggish",  { ...DEFAULTS, dex: 6, ac: 8 }],
+      ["when hero is a wise old monk",                      { ...DEFAULTS, defenderClass: 'Monk', wis: 14, ac: 12 }],
+      ["when hero is a wise and zippy monk",                { ...DEFAULTS, defenderClass: 'Monk', dex: 14, wis: 14, ac: 14 }],
+      ["when hero is a wise and sluggish monk",             { ...DEFAULTS, defenderClass: 'Monk', dex: 6, wis: 14, ac: 10 }],
+      ["when hero is a foolish old monk",                   { ...DEFAULTS, defenderClass: 'Monk', wis: 6, ac: 10 }],
+      ["when hero is a foolish and zippy monk",             { ...DEFAULTS, defenderClass: 'Monk', dex: 14, wis: 6, ac: 12 }],
+      ["when hero is a foolish and sluggish monk",          { ...DEFAULTS, defenderClass: 'Monk', dex: 6, wis: 6, ac: 8 }],
+      ["when attacker is a rogue and the hero is zippy",    { ...DEFAULTS, attackerClass: 'Rogue', dex: 14, ac: 10 }],
 
-    describe("when hero is a monk", () => {
-      beforeEach(() => subject.class = 'Monk') 
+      ["when attacker is a rogue and the hero is sluggish", 
+        { ...DEFAULTS, attackerClass: 'Rogue', dex: 6, ac: 8 }],
 
-      describe("and is very wise", () => {
-        beforeEach(() => subject.wisdom.score = 14) 
+      ["when attacker is a rogue and the hero is a wise old monk",
+        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', wis: 14, ac: 10 }],
 
-        it("add wisdom modifier to armor class", () => {
-          expect(subject.armorClass).toBe(12)
-        })
+      ["when attacker is a rogue and the hero is a wise and zippy monk",
+        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', dex: 14, wis: 14, ac: 10 }],
 
-        it("include dexterity modifier when hero is zippy", () => {
-          subject.dexterity.score = 14
-          expect(subject.armorClass).toBe(14)
-        })
-    
-        it("include dexterity modifier when hero is sluggish", () => {
-          subject.dexterity.score = 6
-          expect(subject.armorClass).toBe(10)
-        })
-      })
+      ["when attacker is a rogue and the hero is a wise and sluggish monk",
+        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', dex: 6, wis: 14, ac: 8 }],
 
-      describe("and is a bit foolish", () => {
-        beforeEach(() => subject.wisdom.score = 6)
+      ["when attacker is a rogue and the hero is a foolish old monk",
+        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', wis: 6, ac: 10 }],
 
-        it("add does not apply wisdom penalty to armor class", () => {
-          expect(subject.armorClass).toBe(10)
-        })
+      ["when attacker is a rogue and the hero is a foolish and zippy monk",
+        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', dex: 14, wis: 6, ac: 10 }],
 
-        it("include dexterity modifier when hero is zippy", () => {
-          subject.dexterity.score = 14
-          expect(subject.armorClass).toBe(12)
-        })
-    
-        it("include dexterity modifier when hero is sluggish", () => {
-          subject.dexterity.score = 6
-          expect(subject.armorClass).toBe(8)
-        })
-      })
+      ["when attacker is a rogue and the hero is a foolish and sluggish monk",
+        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', dex: 6, wis: 6, ac: 8 }]
+    ])("%s", (_, data) => {
+
+      let attacker = new Hero()
+      attacker.class = data.attackerClass
+
+      subject.class = data.defenderClass
+      subject.dexterity.score = data.dex
+      subject.wisdom.score = data.wis
+
+      let actual = subject.armorClass(attacker)
+
+      expect(actual).toBe(data.ac)
     })
   })
 })
