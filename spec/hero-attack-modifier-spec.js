@@ -29,12 +29,17 @@ describe("Hero", () => {
       ["goes up on third level for monks",            { ...DEFAULTS, class: 'Monk', level: 3, attackModifier: +2 }],
       ["does not go up on fourth level for monks",    { ...DEFAULTS, class: 'Monk', level: 4, attackModifier: +2 }],
       ["goes up for strong, high-level monks",        { ...DEFAULTS, class: 'Monk', level: 10, str: 14, attackModifier: +8 }],
+      ["defaults to 1 for paladins",                  { ...DEFAULTS, class: 'Paladin', attackModifier: +1 }],
+      ["goes up every level for paladins",            { ...DEFAULTS, class: 'Paladin', level: 3, attackModifier: +3 }],
+      ["goes up for strong, high-level paladins",     { ...DEFAULTS, class: 'Paladin', level: 4, str: 14, attackModifier: +6 }],
     ])("%s", (_, data) => {
+      let defender = new Hero()
+
       makeLevel(subject, data.level)
-      subject.class = data.class
+      makeClass(subject, data.class)
       subject.strength.score = data.str
       subject.dexterity.score = data.dex
-      expect(subject.attackModifier).toBe(data.attackModifier)
+      expect(subject.attackModifier(defender)).toBe(data.attackModifier)
     })
   })
 })

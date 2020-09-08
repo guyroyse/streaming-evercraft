@@ -53,12 +53,12 @@ describe("Attack", () => {
 
     it("does more damage on a hit", () => {
       subject.resolve(8)
-      expect(defender.currentHitPoints).toBe(previousHitPoints - attacker.attackDamage)
+      expect(defender.currentHitPoints).toBe(previousHitPoints - 3)
     })
 
     it("does even more damage on a critical", () => {
       subject.resolve(20)
-      expect(defender.currentHitPoints).toBe(previousHitPoints - attacker.criticalDamage)
+      expect(defender.currentHitPoints).toBe(previousHitPoints - 6)
     })
   })
 })
