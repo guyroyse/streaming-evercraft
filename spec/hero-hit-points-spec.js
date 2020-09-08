@@ -28,7 +28,7 @@ describe("Hero", () => {
       ["goes up more for buff, high-level paladin",  { class: 'Paladin', level: 3, con: 14, hp: 30 }],
     ])("%s", (_, data) => {
       makeLevel(subject, data.level)
-      subject.class = data.class
+      makeClass(subject, data.class)
       subject.constitution.score = data.con
       expect(subject.hitPoints).toBe(data.hp)
     })

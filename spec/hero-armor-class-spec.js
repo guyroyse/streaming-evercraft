@@ -45,9 +45,9 @@ describe("Hero", () => {
     ])("%s", (_, data) => {
 
       let attacker = new Hero()
-      attacker.class = data.attackerClass
+      makeClass(attacker, data.attackerClass)
+      makeClass(subject, data.defenderClass)
 
-      subject.class = data.defenderClass
       subject.dexterity.score = data.dex
       subject.wisdom.score = data.wis
 

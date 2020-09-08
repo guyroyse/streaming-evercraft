@@ -23,7 +23,7 @@ describe("Hero", () => {
         .toThrow("'Chaotic STOOPID!' is not an alignment")
     })
 
-    describe("when hero is a rogue", () => {
+    describe("when hero is a Rogue", () => {
       beforeEach(() => subject.class = 'Rogue')
 
       it.each([
@@ -35,8 +35,26 @@ describe("Hero", () => {
       })
 
       it("cannot be 'Good'", () => {
-        expect(() => subject.alignment = "Good")
-          .toThrow("Rogues cannot be Good")
+        expect(() => subject.alignment = "Good").toThrow("Rogues cannot be Good")
+      })
+    })
+
+    describe("when hero is a Paladin", () => {
+      beforeEach(() => {
+        subject.alignment = 'Good'
+        subject.class = 'Paladin'
+      })
+
+      it.each([
+        ['Neutral'],
+        ['Evil']
+      ])("cannot be %s", (alignment) => {
+        expect(() => subject.alignment = alignment).toThrow("Paladins must be Good")
+      })
+
+      it("can be 'Good'", () => {
+        subject.alignment = 'Good'
+        expect(subject.alignment).toBe('Good')
       })
     })
   })
