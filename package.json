@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Guy's implementation of Evercraft with JavaScript and Jest",
   "scripts": {
-    "test": "jest --watchAll --setupTestFrameworkScriptFile=./spec/spec-helper.js"
+    "test": "jest --watchAll --runInBand --setupTestFrameworkScriptFile=./spec/spec-helper.js"
   },
   "jest": {
     "testMatch": [
