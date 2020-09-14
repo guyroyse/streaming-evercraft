@@ -8,7 +8,7 @@ describe("Hero", () => {
 
   describe("#attackModifier", () => {
 
-    let DEFAULTS = { class: 'None', level: 1, str: 10, dex: 10 }
+    let DEFAULTS = { class: 'None', level: 1, str: 10, dex: 10, opponentAlignment: 'Neutral' }
 
     it.each([
       ["defaults to 0",                               { ...DEFAULTS, attackModifier: 0 }],
@@ -32,11 +32,15 @@ describe("Hero", () => {
       ["defaults to 1 for paladins",                  { ...DEFAULTS, class: 'Paladin', attackModifier: +1 }],
       ["goes up every level for paladins",            { ...DEFAULTS, class: 'Paladin', level: 3, attackModifier: +3 }],
       ["goes up for strong, high-level paladins",     { ...DEFAULTS, class: 'Paladin', level: 4, str: 14, attackModifier: +6 }],
+      ["does not go by an extra +2 when paladin is attacking good opponent", { ...DEFAULTS, class: 'Paladin', attackModifier: +1, opponentAlignment: 'Good' } ],
+      ["goes up by an extra +2 when paladin is attacking evil opponent", { ...DEFAULTS, class: 'Paladin', attackModifier: +3, opponentAlignment: 'Evil' } ]
     ])("%s", (_, data) => {
       let defender = new Hero()
+      defender.alignment = data.opponentAlignment
 
       makeLevel(subject, data.level)
       makeClass(subject, data.class)
+
       subject.strength.score = data.str
       subject.dexterity.score = data.dex
       expect(subject.attackModifier(defender)).toBe(data.attackModifier)
