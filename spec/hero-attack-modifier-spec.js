@@ -20,18 +20,7 @@ describe("Hero", () => {
         ["does not go up with odd levels",     { ...DEFAULTS, level: 3, attackModifier: +1 }],
         ["goes up more on higher even levels", { ...DEFAULTS, level: 4, attackModifier: +2 }],
         ["goes up with levels and beefitude",  { ...DEFAULTS, level: 4, str: 14, attackModifier: +4 }],
-      ])("%s", (_, data) => {
-        let defender = new Hero()
-        defender.alignment = data.opponentAlignment
-  
-        makeLevel(subject, data.level)
-        makeClass(subject, data.class)
-  
-        subject.strength.score = data.str
-        subject.dexterity.score = data.dex
-        expect(subject.attackModifier(defender)).toBe(data.attackModifier)
-      })
-
+      ])("%s", (_, data) => validateAttackModifier(data))
     })
 
     describe("for Fighters", () => {

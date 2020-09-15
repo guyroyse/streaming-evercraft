@@ -10,38 +10,55 @@ describe("Hero", () => {
   })
 
   describe("#attackDamage", () => {
-    it("default to 1", () => {
-      expect(subject.attackDamage(defender)).toBe(1)
+
+    describe.each(['None', 'Fighter', 'Rogue'])("for %s", (clazz) => {
+
+      let DEFAULTS = { class: clazz, str: 10, opponentAlignment: 'Neutral' }
+
+      it.each([
+        ["defaults to 1",                        { ...DEFAULTS, attackDamage: 1 }],
+        ["goes up when hero is beefy",           { ...DEFAULTS, str: 14, attackDamage: 3 }],
+        ["is at least 1 regardless of strength", { ...DEFAULTS, str: 6, attackDamage: 1 }],
+      ])("%s", (_, data) => validateAttackDamage(data))
     })
 
-    it("goes up when hero is beefy", () => {
-      subject.strength.score = 14
-      expect(subject.attackDamage(defender)).toBe(3)
+    describe("for Monk", () => {
+      
+      let DEFAULTS = { class: 'Monk', str: 10 , opponentAlignment: 'Neutral' }
+
+      it.each([
+        ["defaults to 3",                        { ...DEFAULTS, attackDamage: 3 }],
+        ["goes up when monk is beefy",           { ...DEFAULTS, str: 14, attackDamage: 5 }],
+        ["goes down when monk is wimpy",         { ...DEFAULTS, str: 6, attackDamage: 1 }],
+        ["is at least 1 regardless of strength", { ...DEFAULTS, str: 1, attackDamage: 1 }],
+      ])("%s", (_, data) => validateAttackDamage(data))
     })
 
-    it("cannot go below 1", () => {
-      subject.strength.score = 6
-      expect(subject.attackDamage(defender)).toBe(1)
+    describe("for Paladin", () => {
+
+      let DEFAULTS = { class: 'Paladin', str: 10, opponentAlignment: 'Neutral' }
+
+      it.each([
+        ["defaults to 1",                            { ...DEFAULTS, attackDamage: 1 }],
+        ["goes up when paladin is beefy",            { ...DEFAULTS, str: 14, attackDamage: 3 }],
+        ["goes up by +2 when opponent is evil",      { ...DEFAULTS, opponentAlignment: 'Evil', attackDamage: 3}],
+        ["does not go up when opponent is good",     { ...DEFAULTS, opponentAlignment: 'Good', attackDamage: 1}],
+        ["goes down with paladin is wimpy vs. evil", { ...DEFAULTS, str: 6, opponentAlignment: 'Evil', attackDamage: 1}],
+        ["is at least 1 regardless of strength",     { ...DEFAULTS, str: 1, opponentAlignment: 'Evil', attackDamage: 1}],
+      ])("%s", (_, data) => validateAttackDamage(data))
     })
 
-    describe("when a monk", () => {
-      beforeEach(() => subject.class = 'Monk')
+    function validateAttackDamage(data) {
+      let defender = new Hero()
+      defender.alignment = data.opponentAlignment
 
-      it("default to 3", () => {
-        expect(subject.attackDamage(defender)).toBe(3)
-      })
-  
-      it("goes up when hero is beefy", () => {
-        subject.strength.score = 14
-        expect(subject.attackDamage(defender)).toBe(5)
-      })
-  
-      it("cannot go below 1", () => {
-        subject.strength.score = 1
-        expect(subject.attackDamage(defender)).toBe(1)
-      })  
-    })
+      makeClass(subject, data.class)
+
+      subject.strength.score = data.str
+      expect(subject.attackDamage(defender)).toBe(data.attackDamage)
+    }
   })
+
 
   describe("#criticalDamage", () => {
     it("default to 2", () => {
