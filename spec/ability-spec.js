@@ -1,10 +1,10 @@
-const { Ability } = require('../evercraft')
+const { Ability, Hero } = require('../evercraft')
 
 describe("Ability", () => {
 
   let subject
 
-  beforeEach(() => subject = new Ability())
+  beforeEach(() => subject = new Ability('STR', new Hero()))
 
   describe("#score", () => {
     it("defaults to 10", () => expect(subject.score).toBe(10))
