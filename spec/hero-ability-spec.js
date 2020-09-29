@@ -28,7 +28,7 @@ describe("Hero", () => {
   })
 
   function validateAbilityModifier(data) {
-    subject.race = data.race
+    makeRace(subject, data.race)
 
     subject[data.ability].score = data.score
     expect(subject[data.ability].modifier).toBe(data.modifier)

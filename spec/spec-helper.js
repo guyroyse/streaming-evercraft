@@ -7,3 +7,7 @@ global.makeClass = (hero, clazz) => {
   if (clazz === 'Rogue') hero.alignment = 'Neutral'
   hero.class = clazz
 }
+
+global.makeRace = (hero, race) => {
+  hero.race = race
+}
