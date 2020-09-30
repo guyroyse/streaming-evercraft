@@ -34,13 +34,13 @@ describe("Hero", () => {
         { ...DEFAULTS, attackerClass: 'Rogue', dex: 6, ac: 8 }],
 
       ["when attacker is a rogue and the hero is a wise old monk",
-        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', wis: 14, ac: 10 }],
+        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', wis: 14, ac: 12 }],
 
       ["when attacker is a rogue and the hero is a wise and zippy monk",
-        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', dex: 14, wis: 14, ac: 10 }],
+        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', dex: 14, wis: 14, ac: 12 }],
 
       ["when attacker is a rogue and the hero is a wise and sluggish monk",
-        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', dex: 6, wis: 14, ac: 8 }],
+        { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', dex: 6, wis: 14, ac: 10 }],
 
       ["when attacker is a rogue and the hero is a foolish old monk",
         { ...DEFAULTS, attackerClass: 'Rogue', defenderClass: 'Monk', wis: 6, ac: 10 }],
