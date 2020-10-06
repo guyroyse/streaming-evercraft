@@ -65,7 +65,7 @@ describe("Hero", () => {
   
       it("cannot be a Paladin", () => {
         expect(() => subject.class = "Paladin").toThrow("Paladins must be Good")
-      })  
+      })
     })
   })
 })

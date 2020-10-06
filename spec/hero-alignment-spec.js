@@ -57,5 +57,24 @@ describe("Hero", () => {
         expect(subject.alignment).toBe('Good')
       })
     })
+
+    describe("when hero is a Halfling", () => {
+      beforeEach(() => {
+        subject.alignment = 'Good'
+        subject.race = 'Halfling'
+      })
+
+      it.each([
+        ['Good'],
+        ['Neutral']
+      ])("can be %s", (alignment) => {
+        subject.alignment = alignment
+        expect(subject.alignment).toBe(alignment)
+      })
+
+      it("cannot be 'Evil'", () => {
+        expect(() => subject.alignment = 'Evil').toThrow("Halflings cannot be Evil")
+      })
+    })
   })
 })
