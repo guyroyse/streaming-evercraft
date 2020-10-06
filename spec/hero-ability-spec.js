@@ -8,7 +8,7 @@ describe("Hero", () => {
 
   beforeEach(() => subject = new Hero())
 
-  describe("when an Human", () => {
+  describe("when a Human", () => {
 
     let HUMAN = { ...DEFAULTS, race: 'Human' }
 
@@ -60,7 +60,7 @@ describe("Hero", () => {
     ])("%s", (_, data) => validateAbilityModifier(data))
   })
 
-  describe("when an Dwarf", () => {
+  describe("when a Dwarf", () => {
 
     let DWARF = { ...DEFAULTS, race: 'Dwarf' }
 
@@ -83,6 +83,58 @@ describe("Hero", () => {
       ["adds -1 to CHA modifier",                   { ...DWARF, ability: 'charisma', modifier: -1 }],
       ["adds -1 to CHA modifier when smart",        { ...DWARF, ability: 'charisma', score: 14, modifier: +1 }],
       ["adds -1 to CHA modifier when dull",         { ...DWARF, ability: 'charisma', score: 6, modifier: -3 }],
+    ])("%s", (_, data) => validateAbilityModifier(data))
+  })
+
+  describe("when an Elf", () => {
+
+    let ELF = { ...DEFAULTS, race: 'Elf' }
+
+    it.each([
+      ["doesn't modify STR modifier",               { ...ELF, ability: 'strength', modifier: 0 }],
+      ["doesn't modify STR modifier when strong",   { ...ELF, ability: 'strength', score: 14, modifier: +2 }],
+      ["doesn't modify STR modifier when weak"  ,   { ...ELF, ability: 'strength', score: 6, modifier: -2 }],
+      ["adds +1 to DEX modifier",                   { ...ELF, ability: 'dexterity', modifier: +1 }],
+      ["adds +1 to DEX modifier when zippy",        { ...ELF, ability: 'dexterity', score: 14, modifier: +3 }],
+      ["adds +1 to DEX modifier when sluggish",     { ...ELF, ability: 'dexterity', score: 6, modifier: -1 }],
+      ["adds -1 to CON modifier",                   { ...ELF, ability: 'constitution', modifier: -1 }],
+      ["adds -1 to CON modifier when hale",         { ...ELF, ability: 'constitution', score: 14, modifier: +1 }],
+      ["adds -1 to CON modifier when sickly",       { ...ELF, ability: 'constitution', score: 6, modifier: -3 }],
+      ["doesn't modify INT modifier",               { ...ELF, ability: 'intelligence', modifier: 0 }],
+      ["doesn't modify INT modifier when smart",    { ...ELF, ability: 'intelligence', score: 14, modifier: +2 }],
+      ["doesn't modify INT modifier when dull",     { ...ELF, ability: 'intelligence', score: 6, modifier: -2 }],
+      ["doesn't modify WIS modifier",               { ...ELF, ability: 'wisdom', modifier: 0 }],
+      ["doesn't modify WIS modifier when smart",    { ...ELF, ability: 'wisdom', score: 14, modifier: +2 }],
+      ["doesn't modify WIS modifier when dull",     { ...ELF, ability: 'wisdom', score: 6, modifier: -2 }],
+      ["doesn't modify CHA modifier",               { ...ELF, ability: 'charisma', modifier: 0 }],
+      ["doesn't modify CHA modifier when smart",    { ...ELF, ability: 'charisma', score: 14, modifier: +2 }],
+      ["doesn't modify CHA modifier when dull",     { ...ELF, ability: 'charisma', score: 6, modifier: -2 }],
+    ])("%s", (_, data) => validateAbilityModifier(data))
+  })
+
+  describe("when a Halfling", () => {
+
+    let HALFLING = { ...DEFAULTS, race: 'Halfling' }
+
+    it.each([
+      ["adds -1 to STR modifier",                   { ...HALFLING, ability: 'strength', modifier: -1 }],
+      ["adds -1 to STR modifier when strong",       { ...HALFLING, ability: 'strength', score: 14, modifier: +1 }],
+      ["adds -1 to STR modifier when weak"  ,       { ...HALFLING, ability: 'strength', score: 6, modifier: -3 }],
+      ["adds +1 to DEX modifier",                   { ...HALFLING, ability: 'dexterity', modifier: +1 }],
+      ["adds +1 to DEX modifier when zippy",        { ...HALFLING, ability: 'dexterity', score: 14, modifier: +3 }],
+      ["adds +1 to DEX modifier when sluggish",     { ...HALFLING, ability: 'dexterity', score: 6, modifier: -1 }],
+      ["doesn't modify CON modifier",               { ...HALFLING, ability: 'constitution', modifier: 0 }],
+      ["doesn't modify CON modifier when hale",     { ...HALFLING, ability: 'constitution', score: 14, modifier: +2 }],
+      ["doesn't modify CON modifier when sickly",   { ...HALFLING, ability: 'constitution', score: 6, modifier: -2 }],
+      ["doesn't modify INT modifier",               { ...HALFLING, ability: 'intelligence', modifier: 0 }],
+      ["doesn't modify INT modifier when smart",    { ...HALFLING, ability: 'intelligence', score: 14, modifier: +2 }],
+      ["doesn't modify INT modifier when dull",     { ...HALFLING, ability: 'intelligence', score: 6, modifier: -2 }],
+      ["doesn't modify WIS modifier",               { ...HALFLING, ability: 'wisdom', modifier: 0 }],
+      ["doesn't modify WIS modifier when smart",    { ...HALFLING, ability: 'wisdom', score: 14, modifier: +2 }],
+      ["doesn't modify WIS modifier when dull",     { ...HALFLING, ability: 'wisdom', score: 6, modifier: -2 }],
+      ["doesn't modify CHA modifier",               { ...HALFLING, ability: 'charisma', modifier: 0 }],
+      ["doesn't modify CHA modifier when smart",    { ...HALFLING, ability: 'charisma', score: 14, modifier: +2 }],
+      ["doesn't modify CHA modifier when dull",     { ...HALFLING, ability: 'charisma', score: 6, modifier: -2 }],
     ])("%s", (_, data) => validateAbilityModifier(data))
   })
 
