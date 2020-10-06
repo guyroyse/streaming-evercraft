@@ -17,6 +17,9 @@ describe("Hero", () => {
     it.each([
       ['Human'],
       ['Orc'],
+      ['Dwarf'],
+      ['Elf'],
+      ['Halfling'],
     ])("can be a %s", (race) => {
       subject.race = race
       expect(subject.race).toBe(race)
